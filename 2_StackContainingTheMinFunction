@@ -1,0 +1,58 @@
+//定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+#include <iostream>
+#include <stack>
+using namespace std;
+//使用辅助栈实现min()
+// 5 2 4
+// 5 2 /
+class Solution {
+	stack<int> stack1,ass;
+public:
+    void push(int value) {
+    //第一个栈正常使用
+		stack1.push(value);
+        //第二个栈为空直接放入 (必然最小)
+		if(ass.empty())
+			ass.push(value);
+            //如果不为空,则进行比较 将小的放入
+		else{
+			if(ass.top()>=value)
+				ass.push(value);
+		}
+    }
+
+    void pop() {
+    //首先比较 2个栈的值是否相同
+    //若相同则说明此时到2个栈的最小值 同时弹出
+		if(stack1.top()==ass.top())
+			ass.pop();
+            //否则弹出第一个栈的值
+		stack1.pop();
+    }
+
+    int top() {
+    //正常栈操作
+		return stack1.top();
+    }
+
+    int min() {
+    //辅助栈的栈顶
+		return ass.top();
+    }
+};
+
+int main()
+{
+	Solution a;
+	a.push(5);
+	a.push(2);
+	a.push(4);
+	cout << a.top();
+	cout << a.min();
+	a.pop();
+	a.pop();
+	cout << a.top();
+	cout << a.min();
+    cout << "Hello world!" << endl;
+    return 0;
+}
