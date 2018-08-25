@@ -1,0 +1,73 @@
+//输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
+//如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution
+{
+public:
+	bool VerifySquenceOfBST ( vector<int> sequence )
+	{
+		if ( sequence.empty() )
+			return false;
+		vector<int> left, right;
+		int root = sequence[sequence.size() - 1];
+		int i = 0;
+		//找出二叉搜索树的分界点
+		while ( sequence[i] < root )
+		{
+			i++;
+		}
+		for ( int j = i; j < sequence.size() - 1; j++ )
+		{
+			if ( sequence[j] < root )
+			{
+				return false;
+				break;
+			}
+		}
+		//left
+		for ( int j = 0; j < i; j++ )
+		{
+			left.push_back ( sequence[j] );
+		}
+		//right
+		for ( int j = i; j < sequence.size() - 1; j++ )
+		{
+			right.push_back ( sequence[j] );
+		}
+
+		bool bleft = true, bright = true; // 看左右子树是否是二叉搜索树
+		if ( !left.empty() )
+			bleft = VerifySquenceOfBST ( left );
+		if ( !right.empty() )
+			bright = VerifySquenceOfBST ( right );
+		return bleft && bright;
+	}//VerifySquenceOfBST
+};
+
+//void printLastTree ( TreeNode *Root )
+//{
+//      if ( Root == NULL )
+//              return 0;
+//      printTree ( Root->left );
+//      printTree ( Root->right );
+//      cout << Root->val << " " ;
+//}
+
+
+int main()
+{
+	vector<int> vec;
+	vec.push_back ( 7 );
+	vec.push_back ( 4 );
+	vec.push_back ( 5 );
+	vec.push_back ( 6 );
+	//vec.push_back ( 8 );
+	//vec.push_back ( 12 );
+	Solution s;
+	cout << s.VerifySquenceOfBST ( vec );
+	cout << "Hello world!" << endl;
+	return 0;
+}
