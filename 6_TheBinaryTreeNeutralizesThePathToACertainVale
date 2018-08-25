@@ -1,0 +1,93 @@
+//输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。
+//路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+//(注意: 在返回值的list中，数组长度大的数组靠前)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+
+struct TreeNode
+{
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode ( int x ) :
+		val ( x ), left ( NULL ), right ( NULL ) { }
+};
+class Solution
+{
+public:
+	/**
+	* 输入一棵二叉树和一个整数， 打印出二叉树中结点值的和为输入整数的所有路径。
+	* 从树的根结点开始往下一直到叶销点所经过的结点形成一条路径。
+	*
+	* @param root        树的根结点
+	* @param expectedSum 要求的路径和
+	*/
+	vector<vector<int> > FindPath ( TreeNode* root, int expectNumber )
+	{
+		vector<vector<int> > path;
+		vector<int> res;
+		if ( root != NULL )
+		{
+			FindPath ( root, expectNumber, path, res );
+		}
+		return path;
+	}
+	void FindPath ( TreeNode* root, int cur, vector<vector<int> > &path, vector<int> &result )
+	{
+		//
+		if ( root != NULL )
+		{
+			//减去当前节点的值
+			cur -= root->val;
+			result.push_back ( root->val );
+			// 如果是叶子节点, 判断路径和是否等于exceptNumber
+			if ( root->left == NULL && root->right == NULL )
+				if ( cur == 0 )
+					path.push_back ( result );
+			// 如果不是 且路径值不等于0,递归左右子树
+			if ( cur != 0 && root->left != NULL )
+				FindPath ( root->left, cur, path, result );
+			if ( cur != 0 && root->right != NULL )
+				FindPath ( root->right, cur, path, result );
+			//如果为0 则删除该节点
+			//推出计算前  删除该节点
+			result.pop_back();
+		}
+	}
+};
+
+/**
+ *   输出二维向量
+ * @param v 待输出的二维数组
+ */
+void PrintVVint ( vector<vector<int >> v )
+{
+	int vsize = v[0].size();
+	int size = v.size();
+	for ( int i = 0; i < size; i++ )
+		for ( int j = 0; j < vsize; j++ )
+			cout << v[i][j] << " ";
+}
+
+int main()
+{
+	//          10
+	//         /  \
+	//        5   12
+	//       /\
+	//      4  7
+	TreeNode *root = new TreeNode ( 10 );
+	//root.val = 10;
+	root->left = new TreeNode ( 5 );
+	root->left->left = new TreeNode ( 4 );
+	root->left->right = new TreeNode ( 7 );
+	root->right = new TreeNode ( 12 );
+	Solution s;
+	//s.FindPath(root, 19);
+	PrintVVint ( s.FindPath ( root, 19 ) );
+	cout << "Hello world!" << endl;
+	return 0;
+}
