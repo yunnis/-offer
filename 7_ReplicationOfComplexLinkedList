@@ -1,0 +1,108 @@
+//输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），
+//返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+
+#include <iostream>
+
+using namespace std;
+
+struct RandomListNode
+{
+	int label;
+	struct RandomListNode *next, *random;
+	RandomListNode ( int x ) :
+		label ( x ), next ( NULL ), random ( NULL )
+	{
+	}
+};
+
+class Solution
+{
+public:
+	/**
+	 * 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），
+	* 返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+	 *
+	 * @param   pHead   复杂列表的头结点
+	   @return  p       复制链表的头结点
+	 */
+	RandomListNode* Clone ( RandomListNode* pHead )
+	{
+		//初步设想 先复制一次只有后续
+		//再复制一次 这次复制随机结点
+		if ( pHead == NULL )
+			return NULL;
+		RandomListNode* ass = new RandomListNode ( pHead->label );
+		RandomListNode *p1 = NULL, *p2 = NULL;
+
+		p1 = pHead;
+		p2 = ass;
+		//第一次
+		while ( p1 )
+		{
+			RandomListNode *tmp = p1->next;
+			p1->next = p2;
+			p2->next = tmp;
+			//next
+			p1 = tmp;
+			if ( tmp )
+				p2 = new RandomListNode ( tmp->label );
+			else
+				p2 = NULL;
+		}
+		//第二次
+		p1 = pHead;
+		p2 = ass;
+		while ( p1 )
+		{
+			if ( p1->random )
+				p2->random = p1->random->next;
+			else
+				p2->random = NULL;
+			p1 = p2->next;
+			if ( p1 )
+				p2 = p1->next;
+			else
+				p2 = NULL;
+		}
+		// 断开 分成2个链表
+		p1 = pHead;
+		p2 = ass;
+		while ( p1 )
+		{
+			p1->next = p2->next;
+			if ( p1->next )
+				p2->next = p1->next->next;
+			else
+				p2->next = NULL;
+			p1 = p1->next;
+			p2 = p2->next;
+		}
+		return ass;
+	}//Clone
+};
+
+void PrintRandomList ( RandomListNode* head )
+{
+	while ( head )
+	{
+		cout << head->label << " " ;
+		head = head->next;
+	}
+}
+
+int main()
+{
+	RandomListNode *root = new RandomListNode ( 1 );
+	root->next = new RandomListNode ( 2 );
+	root->next->next = new RandomListNode ( 3 );
+	root->random = root->next->next;
+	root->next->random = root;
+	root->next->next->random = root->next;
+	PrintRandomList ( root );
+	cout << endl;
+	Solution s;
+	PrintRandomList(s.Clone(root));
+
+	cout << "Hello world!" << endl;
+	return 0;
+}
