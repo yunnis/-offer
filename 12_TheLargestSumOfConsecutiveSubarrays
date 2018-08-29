@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+//例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。
+class Solution
+{
+public:
+	int FindGreatestSumOfSubArray ( vector<int> array )
+	{
+		int res = array[0];
+		int x = array[0];
+		for ( int i = 1; i < array.size(); i++ )
+		{
+			x = max ( x + array[i], array[i] );
+			res = max ( x, res );
+		}
+		return res;
+	}
+};
+
+
+int main()
+{
+	int a[] {6, -3, -2, 7, -15, 1, 2, 2};
+	vector<int> v ( a, a + 8 );
+	Solution s;
+	cout << s.FindGreatestSumOfSubArray ( v );
+	cout << "Hello world!" << endl;
+	return 0;
+}
