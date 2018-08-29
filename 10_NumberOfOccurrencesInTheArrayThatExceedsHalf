@@ -1,0 +1,57 @@
+/**
+ * @brief
+ * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+ * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，
+ * 超过数组长度的一半，因此输出2。如果不存在则输出0。
+ * @date 2018-08-28
+ */
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+	/**
+	 * @brief
+	 * 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+	 * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，
+	 * 超过数组长度的一半，因此输出2。如果不存在则输出0。
+	 * @param number 输入的数组
+	 * @return res 值或0
+	 */
+    int MoreThanHalfNum_Solution(vector<int> numbers)
+    {
+    	int res = 0;
+		if ( numbers.size() == 0 )
+		{
+			return res;
+		}
+		int v[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		for ( int i = 0; i < numbers.size(); i++ )
+		{
+			v[numbers[i]]++;
+		}
+		for ( int i = 0; i < 10; i++)
+		{
+			if ( v[i] * 2 > numbers.size() )
+			{
+				res = i;
+			}
+		}
+		return res;
+    }
+};
+
+
+int main()
+{
+	int a[] {1,2,3,2,2,2,5,4,2};
+	vector<int> v( a,a+9 );
+//	for ( int i = 0; i < v.size(); i++)
+//		cout << v[i];
+	Solution s;
+	cout << s.MoreThanHalfNum_Solution(v);
+	cout << "Hello world!" << endl;
+    return 0;
+}
