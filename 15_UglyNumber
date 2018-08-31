@@ -1,0 +1,72 @@
+#include <iostream>
+
+using namespace std;
+
+class Solution
+{
+public:
+	/**
+	 * @brief 把只包含质因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含质因子7。
+	 *        习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+	 * @param index 第index个丑数
+	 * @return res 第index个丑数的值
+	 */
+	int GetUglyNumber_Solution ( int index )
+	{
+		//丑数必定是 1的2,3,5倍或上的数的2,3,5倍
+		int u2 ( 0 ), u3 ( 0 ), u5 ( 0 ), uarray[index];
+		uarray[0] = 1;
+		for ( int i = 1; i < index; i++ )
+		{
+			uarray[i] = min ( ( uarray[u2] * 2 ), min ( ( uarray[u3] * 3 ), ( uarray[u5] * 5 ) ) );
+			if ( uarray[i] == uarray[u2] * 2 )
+				u2++;
+			if ( uarray[i] == uarray[u3] * 3 )
+				u3++;
+			if ( uarray[i] == uarray[u5] * 5 )
+				u5++;
+		}
+		return uarray[index - 1];
+	}
+	//暴力解法 超时
+	//              int un = 1;
+	//              while ( index != 0 )
+	//              {
+	//                      if ( IsUglyNumber ( un ) )
+	//                      {
+	//                              un++;
+	//                              index--;
+	//                      }
+	//                      else
+	//                              while ( !IsUglyNumber ( un ) )
+	//                                      un++;
+	//              }
+	//              return un-1;
+	//
+	//      }
+	//      bool IsUglyNumber ( int x )
+	//      {
+	//              while ( x != 1 )
+	//              {
+	//                      if ( x % 2 == 0 )
+	//                              x /= 2;
+	//                      else if ( x % 3 == 0 )
+	//                              x /= 3;
+	//                      else if ( x % 5 == 0 )
+	//                              x /= 5;
+	//                      else
+	//                              break;
+	//              }
+	//              if ( x == 1 )
+	//                      return true;
+	//              return false;
+	//      }
+};
+
+int main()
+{
+	Solution s;
+	cout << s.GetUglyNumber_Solution ( 3 );
+	cout << "Hello world!" << endl;
+	return 0;
+}
