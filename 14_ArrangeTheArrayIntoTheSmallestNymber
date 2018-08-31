@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+using std::string;
+/**
+ * @brief
+ *  输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
+ *  例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+ * @date 2018-08-30
+ */
+class Solution
+{
+public:
+
+
+	static int compare(const string& st1,const string& st2)
+    {
+        string s1=st1+st2;
+        string s2=st2+st1;
+        return s1<s2;//降序排列，改为大于就是升序排列！！！
+    }
+	string PrintMinNumber ( vector<int> numbers )
+	{
+		string res, s;
+		if ( numbers.size() <= 0 )
+			return res;
+		vector<string> vec;
+		for ( unsigned int i = 0; i < numbers.size(); i++ )
+		{
+			s = to_string( numbers[i] );
+			vec.push_back ( s ); //将字符串s压入vec中
+		}
+		//排序，传入比较器，从小到大排序
+		sort ( vec.begin(), vec.end(), compare );
+		for ( unsigned int i = 0; i < vec.size(); i++ )
+		{
+			res.append ( vec[i] ); //拼接字符串，这就是最小的数字
+		}
+		return res;
+	}
+//
+//	int compare ( string a, string b )
+//	{
+//		string t1, t2;
+//		t1 = a + b;
+//		t2 = b + a;
+//		cout << t1 << " " << t2;
+//		return t1 < t2;
+//	}
+
+};
+
+
+int main()
+{
+	int a[7] {21, 3, 456, 32, 12, 6, 199};
+	vector<int> v ( a, a + 7 );
+	string str;
+	Solution s;
+	str = s.PrintMinNumber(v);
+	cout << str;
+	return 0;
+}
