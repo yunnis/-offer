@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    /**
+     * @brief 在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,
+     * @param str 输入的字符串
+     * @return 并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+     */
+    int FirstNotRepeatingChar(string str) {
+        //acsii码 8bit
+        if (str.size() == 0)
+            return -1;
+        int a[256] = {0};
+        int res(0);
+        for( int i = 0; i < str.size(); i++)
+        {
+            a[str[i]]++;
+        }
+        for ( int i = 0; i < str.size(); i++)
+        {
+            if ( a[str[i]] == 1)
+                return i;
+        }
+        return -1;
+    }
+};
+
+int main()
+{
+	string str("asdzcsad");
+	Solution s;
+	cout << s.FirstNotRepeatingChar(str);
+    return 0;
+}
