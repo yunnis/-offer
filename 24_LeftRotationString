@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    /**
+     * @brief 对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
+     * 例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”
+     * @param string str 输入的字符串
+     * @param int n 循环左移的位数
+     * @return string 左移n次后的字符串
+     */
+    string LeftRotateString(string str, int n) {
+        //两种思路
+        //循环n次
+        //将前n放到后n位
+        if ( n > str.size())
+		return "";
+		string res;
+
+		//思路2第一种写法
+		res.assign(str.begin()+n, str.end());
+		str.assign(str.begin(),str.begin()+n);
+		return res+str;
+
+		//思路2第二种写法
+		//res = str.substr(n,str.length()) + str.substr(0,n);
+		//return res;
+    }
+};
+
+int main()
+{
+	string str("abcXYZdef");
+	Solution s;
+	cout << s.LeftRotateString(str,6);
+    return 0;
+}
