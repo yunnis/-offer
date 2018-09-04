@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    /**
+     * @brief 一个整型数组里除了两个数字之外，其他的数字都出现了偶数次。请写程序找出这两个只出现一次的数字。
+     * @param vector<int> data 整形数组
+     * @param int* num1 存放第一个出现一次的数
+     * @param int* num2 存放第二个出现一次的数
+     */
+	//使用 unodered_map(或HashMap, 但是c++中的HashMap效率不如unordered_Map高) 存放数据
+    void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
+        unordered_map<int,int> unmap;
+        // 循环一次 统计每个数字出现的次数
+		for ( int i = 0; i < data.size(); i++)
+		{
+			unmap[data[i]]++;
+		}
+        int a[2],l = 0;
+        // 再次循环 找出map.second(映射的值)为1的对, 并输出他的first(key值)
+		for( int i = 0; i < data.size(); i++)
+		{
+			if ( unmap[data[i]] == 1 )
+			{
+				a[l] = data[i];
+				l++;
+			}
+		}
+        *num1 = a[0]; *num2 = a[1];
+        cout << *num1 << " " << *num2;
+    }
+};
+
+int main()
+{
+	unordered_map<int, int> unmap;
+	int a[10]{120,150,120,150,160,111,111,170,123,123},b,c;
+	vector<int> v(a,a+10);
+    Solution s;
+    s.FindNumsAppearOnce(v,&b,&c);
+    return 0;
+}
