@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+class Solution {
+public:
+    /** @brief “红心A,黑桃3,小王,大王,方片5”,不是顺子
+     * 决定大\小 王可以看成任何数字,并且A看作1,J为11,Q为12,K为13。
+     * 上面的5张牌就可以变成“1,2,3,4,5”(大小王分别看作2和4),
+     * 如果牌能组成顺子就输出true，否则就输出false。为了方便起见,你可以认为大小王是0。
+     * @param vector<int> numbers 输入的数组
+     * @return bool 是否是顺子
+     */
+    bool IsContinuous( vector<int> numbers ) {
+    	if ( numbers.size() > 5)
+			return false;
+        sort(numbers.begin(), numbers.end());
+        int joker = 0, min = 14, max = 0;
+        for ( int i = 0; i < numbers.size(); i++ )
+			if ( numbers[i] == 0 )
+				joker++;
+		if ( joker == 5 )
+			return false;
+		if ( numbers[4] - numbers[joker] >= 5 )
+			return false;
+		for ( int i = joker; i < 4; i++)
+		{
+			if (numbers[i] == numbers[i+1])
+				return false;
+		}
+		return true;
+	}
+};
+
+int main()
+{
+	int a[5]{1,3,2,5,4};
+	vector<int> v(a, a + 5);
+	Solution s;
+	cout << s.IsContinuous(v);
+    cout << "Hello world!" << endl;
+    return 0;
+}
