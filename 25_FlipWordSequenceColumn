@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    /**
+     * @brief 例如，“student. a am I”。这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。
+     * @param string str 要处理的字符串
+     * @return string 反转后字符串
+     */
+    string ReverseSentence(string str) {
+        string res, tmp = str;
+        unsigned int i = str.size() - 1;
+        unsigned int pos = i;
+        while ( i != -1 )
+        {
+            if( str[i] != ' ' )
+            {
+                i--;
+            }
+            else
+            {
+                res += tmp.assign(str.begin() + i+1,str.begin() + pos +1) + " ";
+                pos = i -1;
+                i--;
+                tmp = str;
+            }
+            if ( i == 0 )
+			{
+				res += str.assign(str.begin(),str.begin() + pos+1);
+			}
+        }
+        cout << res.size();
+        return res;
+    }
+
+    void stringswap(string &str, int begin, int end)
+    {
+        while ( begin < end ){
+            swap(str[begin],str[end]);
+            begin++; end--;
+        }
+    }
+
+    string ReverseSentence1(string str) {
+        str.assign(str.rbegin(), str.rend());
+        unsigned int i = 0;
+        unsigned int pos = i;
+        while ( i < str.size())
+        {
+            while ( str[i] != ' ' && i < str.size() )
+            {
+                i++;
+            }
+            stringswap(str,pos,i-1);
+            pos = i+1;
+            if ( str[i] == ' ' )
+            {
+                i++;
+            }
+        }
+        //cout << str.size();
+        return str;
+    }
+};
+
+int main()
+{
+	string str{"student. a am I"};
+	string str1{"I am a student."};
+	cout << str.size();
+	Solution s;
+	str = s.ReverseSentence1(str1);
+    cout << str << endl;
+    return 0;
+}
